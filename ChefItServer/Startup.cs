@@ -33,7 +33,7 @@ namespace ChefItServer
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-            string connectionString = this.Configuration.GetConnectionString("ChefItBL");
+            string connectionString = this.Configuration.GetConnectionString("ChefItDB");
             services.AddDbContext<ChefItDBContext>(options => options.UseSqlServer(connectionString));
         }
 
