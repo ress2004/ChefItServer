@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChefItServerBL.Models
 {
-    class ChefItDBContext:DbContext
+   public  partial class  ChefItDBContext:DbContext
     {
         public User Login(string email, string pswd)
         {
             User user = this.Users
-                .Include(us => us.UserContacts)
-                .ThenInclude(uc => uc.ContactPhones)
+                .Include(us => us.Users)
+                .ThenInclude(uc => uc.Users)
                 .Where(u => u.Email == email && u.UserPswd == pswd).FirstOrDefault();
 
             return user;
