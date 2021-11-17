@@ -12,9 +12,7 @@ namespace ChefItServerBL.Models
         public User Login(string email, string pswd)
         {
             User user = this.Users
-                .Include(us => us.Users)
-                .ThenInclude(uc => uc.Users)
-                .Where(u => u.Email == email && u.UserPswd == pswd).FirstOrDefault();
+                .Where(u => u.Email == email && u.Pswd == pswd).FirstOrDefault();
 
             return user;
         }
