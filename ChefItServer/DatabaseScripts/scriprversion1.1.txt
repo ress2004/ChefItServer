@@ -1,0 +1,119 @@
+use ChefItDB
+
+
+CREATE TABLE Users(
+	
+    Username NVARCHAR(255) UNIQUE NOT NULL,
+    FirstName NVARCHAR(255) NOT NULL,
+    LastName NVARCHAR(255) NOT NULL,
+    Country NVARCHAR(255) NOT NULL,
+    Phone NVARCHAR(255)  UNIQUE NOT NULL,
+    Email NVARCHAR(255) UNIQUE NOT NULL,
+    Pswd NVARCHAR(255) NOT NULL,
+    TypeID INT NOT NULL
+);
+
+CREATE TABLE UserTypes(
+    ID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    TypeName NVARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Customers(
+	CustomerID INT IDENTITY(1000,1) PRIMARY KEY NOT NULL,
+    HasStove BIT NOT NULL,
+	Username NVARCHAR(255) NOT NULL,
+    AddressLocation NVARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Chefs(
+    ChefID INT IDENTITY(1000,1) PRIMARY KEY NOT NULL,
+	ExpertiseID INT NOT NULL,
+	Username NVARCHAR(255) NOT NULL,
+    DescriptionText NVARCHAR(255) NOT NULL,
+    GalleryURL NVARCHAR(255) NOT NULL
+);
+CREATE TABLE ExpertiseTypes(
+ ID INT IDENTITY(10000,1) PRIMARY KEY NOT NULL,
+    EName NVARCHAR(255) NOT NULL,
+
+);
+CREATE TABLE ResevationStatuses(
+    ID INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    StatusName NVARCHAR(255) NOT NULL
+);
+CREATE TABLE Reservations(
+    ReservationID INT IDENTITY(10000,1) PRIMARY KEY NOT NULL,
+    ChefID INT NOT NULL,
+    CustomerID INT NOT NULL,
+    StatusID INT NOT NULL,
+    RDate DATETIME NOT NULL,
+    NumOfGuests INT NOT NULL,
+    Price INT NOT NULL,
+);
+
+CREATE TABLE Reviews(
+    ID INT IDENTITY(10000,1) PRIMARY KEY NOT NULL,
+    CustomerID INT NOT NULL,
+    ChefID INT NOT NULL,
+    Rate INT NOT NULL
+);
+
+ALTER TABLE
+    Reviews ADD CONSTRAINT reviews_customerid_foreign FOREIGN KEY(CustomerID) REFERENCES Customers(CustomerID);
+ALTER TABLE
+    Reviews ADD CONSTRAINT reviews_chefid_foreign FOREIGN KEY(ChefID) REFERENCES Chefs(ChefID);
+
+
+ALTER TABLE
+    Reservations ADD CONSTRAINT reservations_statusid_foreign FOREIGN KEY(StatusID) REFERENCES ResevationStatuses(StatusID);
+ALTER TABLE
+    Reservations ADD CONSTRAINT reservations_customerid_foreign FOREIGN KEY(CustomerID) REFERENCES Customers(CustomerID);
+ALTER TABLE
+    Reservations ADD CONSTRAINT reservations_chefid_foreign FOREIGN KEY(ChefID) REFERENCES Chefs(ChefID);
+
+
+
+ALTER TABLE
+    Chefs ADD CONSTRAINT chefs_expertiseid_foreign FOREIGN KEY(ExpertiseID) REFERENCES ExpertiseTypes(ExpertiseID);
+ALTER TABLE
+    Chefs ADD CONSTRAINT chefs_username_foreign FOREIGN KEY(Username) REFERENCES Users(Username);
+
+
+ALTER TABLE
+    Users ADD CONSTRAINT users_usertype_foreign FOREIGN KEY(TypeID) REFERENCES UserTypes(TypeID);
+
+
+
+ALTER TABLE
+    Customers ADD CONSTRAINT customers_username_foreign FOREIGN KEY(Username) REFERENCES Users(Username);
+
+
+INSERT INTO [dbo].[UserTypes]
+           ([TypeName])
+     VALUES
+           ('Costumer')
+GO
+
+INSERT INTO [dbo].[Users]
+           ([Username]
+           ,[FirstName]
+           ,[LastName]
+           ,[Country]
+           ,[Phone]
+           ,[Email]
+           ,[Pswd]
+           ,[TypeID])
+     VALUES
+           ('rar123'
+           ,'kobe'
+           ,'mamba',
+           'Israel'
+           ,+97243545
+           ,'rar123@gmail.com'
+           ,'rar123'
+           ,1)
+GO
+
+
+
+
